@@ -7,10 +7,11 @@ const app = express()
 
 // init middlewares
 app.use(morgan("dev"))
-app.use(helmet())
-app.use(compression())
+app.use(helmet()) // ngan tran bin an cap thong tin phien ban minh su dung
+app.use(compression()) // làm giảm băng thông truyền tải
 
 //init db
+require('./dbs/init.mongodb')
 
 // init routes
 app.get('/', (req, res, next) => {
