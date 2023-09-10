@@ -1,7 +1,8 @@
-'use trict'
+'use strict'
 
 const mongoose = require('mongoose')
 const connectString = 'mongodb://127.0.0.1:27017/'
+
 
 class Database {
 
@@ -16,18 +17,25 @@ class Database {
             mongoose.set('debug', {color: true})
         }
 
-        mongoose.connect(connectString).then( _ => console.log(`Connected Mongodb Success`))
+        mongoose.connect(connectString, 
+           { maxPoolSize: 50 
+        }).then( _ => console.log(`Connected Mongodb Success`))
         .catch(err => console.log(`Error Connect!`))
     }
 
-    static getInstance() {
-        if(!Database.instance){
-            Database.instance = new Database()
-        }
-
-        return Database.instance
-    }
+          static getInstance() {
+              if(!Database.instance){
+                  Database.instance = new Database()
+              }
+      
+              return Database.instance
+          }
 }
 
 const instanceMongodb = Database.getInstance()
-module.exports = instanceMongodb
+module.exports = {
+    instanceMongodb 
+}
+
+
+

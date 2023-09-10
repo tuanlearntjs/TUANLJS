@@ -11,7 +11,11 @@ app.use(helmet()) // ngan tran bin an cap thong tin phien ban minh su dung
 app.use(compression()) // làm giảm băng thông truyền tải
 
 //init db
-require('./dbs/init.mongodb')
+ require('./dbs/init.mongodb')
+  const {  countConnect } = require('./helpers/check.connect')
+  countConnect()
+  const { checkOverload } = require('./helpers/check.connect')
+  checkOverload()
 
 // init routes
 app.get('/', (req, res, next) => {
@@ -19,7 +23,7 @@ app.get('/', (req, res, next) => {
 
     return res.status(500).json({
         message: 'Wellcome',
-        metadata: strCompress.repeat(10000)
+        //metadata: strCompress.repeat(10000)
     })
 })
 

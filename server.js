@@ -7,5 +7,6 @@ const server = app.listen(3055,() => {
 
 process.on('SIGINT', () => {
     server.close( () => console.log(`Exit Server Express`))
+    process.exit();
     //notify.send(ping...)
 })
