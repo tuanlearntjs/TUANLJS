@@ -1,14 +1,19 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const helmet = require('helmet');
 const compression = require('compression');
 const app = express()
 
-
+console.log(`Process::`, process.env)
 // init middlewares
 app.use(morgan("dev"))
 app.use(helmet()) // ngan tran bin an cap thong tin phien ban minh su dung
 app.use(compression()) // làm giảm băng thông truyền tải
+app.use(express.json())
+app.use(express.urlencoded({
+  extended: true
+}))
 
 //init db
  require('./dbs/init.mongodb')
@@ -18,14 +23,7 @@ app.use(compression()) // làm giảm băng thông truyền tải
   checkOverload()
 
 // init routes
-app.get('/', (req, res, next) => {
-    const strCompress = 'Hello Factipjs'
-
-    return res.status(500).json({
-        message: 'Wellcome',
-        //metadata: strCompress.repeat(10000)
-    })
-})
+app.use('/', require('./routes'))
 
 // handing error
 

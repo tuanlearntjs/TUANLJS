@@ -5,7 +5,8 @@ const mongoose = require('mongoose')
 const os = require('os')
 const process = require('process');
 const numCores = 1;
-const _SECONDS = 5000;
+const _SECONDS = 50000;
+let printed = false;
 
 
 const countConnect = () => {
@@ -22,14 +23,17 @@ const checkOverload = () => {
         const memoryUsage = process.memoryUsage().rss;
         // Ví dụ tối đa số lượt truy cập của core
         const maxConnections = numCores * 5;
-
-        console.log(`Active connections: ${numConnection}`)
-        console.log(`Memory usage:: ${memoryUsage / 1024 / 1024} MB`)
+        
+        if (!printed) {
+            console.log(`Active connections: ${numConnection}`)
+            console.log(`Memory usage: ${memoryUsage / 1024 / 1024} MB`);
+            printed = true;
+        }
 
         if(numConnection > maxConnections) {
             console.log(`Connection overload detected!`)
         }
-    }, _SECONDS)
+    })
 };
 
 module.exports = {
